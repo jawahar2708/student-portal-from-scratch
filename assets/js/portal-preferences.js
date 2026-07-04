@@ -1,33 +1,24 @@
 (function(window, document) {
     var THEME_KEY = 'portal-theme';
     var COLLAPSED_KEY = 'portal-sidebar-collapsed';
-    var COOKIE_KEY = 'portal-theme';
+    var URL_THEME_RE = /[?&]theme=(dark|light)(?:&|$)/;
 
-    function readCookieTheme() {
-        var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + COOKIE_KEY + '=(dark|light)(?:;|$)'));
-        return match ? match[1] : null;
-    }
-
-    function writeCookieTheme(theme) {
-        document.cookie = COOKIE_KEY + '=' + theme +
-            ';path=/' +
-            ';max-age=31536000;SameSite=Lax';
+    function readThemeFromUrl() {
+        try {
+            var match = (window.location.search || '').match(URL_THEME_RE);
+            if (match) return match[1];
+        } catch (e) {}
+        return null;
     }
 
     function readTheme() {
-        var stored = null;
-        try {
-            stored = localStorage.getItem(THEME_KEY);
-        } catch (e) {}
-        if (stored === 'dark' || stored === 'light') return stored;
-
-        stored = readCookieTheme();
-        if (stored === 'dark' || stored === 'light') return stored;
+        var fromUrl = readThemeFromUrl();
+        if (fromUrl === 'dark' || fromUrl === 'light') return fromUrl;
 
         try {
-            stored = sessionStorage.getItem(THEME_KEY);
+            var stored = localStorage.getItem(THEME_KEY);
+            if (stored === 'dark' || stored === 'light') return stored;
         } catch (e) {}
-        if (stored === 'dark' || stored === 'light') return stored;
 
         return 'light';
     }
@@ -37,11 +28,56 @@
         try {
             localStorage.setItem(THEME_KEY, theme);
         } catch (e) {}
-        try {
-            sessionStorage.setItem(THEME_KEY, theme);
-        } catch (e) {}
-        writeCookieTheme(theme);
+        syncThemeUrl(theme);
         return theme;
+    }
+
+    function toRelativeHref(url) {
+        var path = url.pathname.split('/').pop() || '';
+        return path + url.search + url.hash;
+    }
+
+    function syncThemeUrl(theme) {
+        try {
+            var url = new URL(window.location.href);
+            if (theme === 'dark') {
+                url.searchParams.set('theme', 'dark');
+            } else {
+                url.searchParams.delete('theme');
+            }
+            var next = toRelativeHref(url);
+            if (next !== toRelativeHref(new URL(window.location.href))) {
+                window.history.replaceState(null, '', next);
+            }
+        } catch (e) {}
+    }
+
+    function isInternalPortalLink(href) {
+        if (!href || href === '#' || href.charAt(0) === '#') return false;
+        if (/^javascript:/i.test(href)) return false;
+        if (/^https?:\/\//i.test(href)) {
+            try {
+                return new URL(href, window.location.href).origin === window.location.origin;
+            } catch (e) {
+                return false;
+            }
+        }
+        return /\.html?$/i.test(href) || href.indexOf('.') === -1;
+    }
+
+    function withThemeInHref(href, theme) {
+        if (!isInternalPortalLink(href)) return href;
+        try {
+            var url = new URL(href, window.location.href);
+            if (theme === 'dark') {
+                url.searchParams.set('theme', 'dark');
+            } else {
+                url.searchParams.delete('theme');
+            }
+            return toRelativeHref(url);
+        } catch (e) {
+            return href;
+        }
     }
 
     function applyTheme(theme) {
@@ -75,6 +111,15 @@
 
     function persistActiveTheme() {
         return setTheme(getActiveTheme());
+    }
+
+    function decoratePortalLinks(theme) {
+        theme = theme === 'dark' ? 'dark' : 'light';
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!isInternalPortalLink(href)) return;
+            link.setAttribute('href', withThemeInHref(href, theme));
+        });
     }
 
     function readSidebarCollapsed() {
@@ -111,8 +156,10 @@
     if (getActiveTheme() !== initialTheme || document.documentElement.style.colorScheme !== initialTheme) {
         applyTheme(initialTheme);
     }
+    writeTheme(initialTheme);
 
-    window.addEventListener('pageshow', function() {
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) return;
         var theme = readTheme();
         if (getActiveTheme() !== theme) {
             applyTheme(theme);
@@ -148,6 +195,8 @@
         setTheme: setTheme,
         applyTheme: applyTheme,
         persistActiveTheme: persistActiveTheme,
+        withThemeInHref: withThemeInHref,
+        decoratePortalLinks: decoratePortalLinks,
         getSidebarCollapsed: readSidebarCollapsed,
         setSidebarCollapsed: setSidebarCollapsed,
         applySidebarCollapsedPref: applySidebarCollapsedPref,

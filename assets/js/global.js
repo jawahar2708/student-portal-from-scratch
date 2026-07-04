@@ -44,9 +44,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (prefs) prefs.clearSidebarCollapsedPref();
     }
 
-    function persistThemeForNavigation() {
+    function persistThemeForNavigation(link) {
         if (!prefs) return;
-        prefs.setTheme(prefs.getActiveTheme());
+        var theme = prefs.getActiveTheme();
+        prefs.setTheme(theme);
+        if (link && prefs.withThemeInHref) {
+            var href = link.getAttribute('href');
+            if (href) {
+                link.setAttribute('href', prefs.withThemeInHref(href, theme));
+            }
+        }
     }
 
     function syncSidebarShrinkToggle() {
@@ -94,8 +101,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     restoreSidebarCollapsed();
 
-    window.addEventListener('portal-theme-changed', function() {
+    if (prefs && prefs.decoratePortalLinks) {
+        prefs.decoratePortalLinks(prefs.getActiveTheme());
+    }
+
+    window.addEventListener('portal-theme-changed', function(e) {
         syncDarkModeToggle();
+        if (prefs && prefs.decoratePortalLinks) {
+            prefs.decoratePortalLinks(e.detail || prefs.getActiveTheme());
+        }
     });
 
     window.addEventListener('portal-sidebar-changed', function() {
@@ -179,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
         }
-        persistThemeForNavigation();
+        persistThemeForNavigation(link);
         if (prefs.getSidebarCollapsed()) {
             prefs.applySidebarCollapsedPref();
         }
@@ -192,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const href = link.getAttribute('href');
         if (!href || href === '#' || href.charAt(0) === '#') return;
         if (/^javascript:/i.test(href)) return;
-        persistThemeForNavigation();
+        persistThemeForNavigation(link);
         if (prefs.getSidebarCollapsed()) {
             prefs.applySidebarCollapsedPref();
         }

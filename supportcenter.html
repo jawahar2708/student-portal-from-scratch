@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-(function (d) {
+(function (d, w) {
     var THEME_KEY = 'portal-theme';
+    var URL_THEME_RE = /[?&]theme=(dark|light)(?:&|$)/;
     function readTheme() {
         var t = null;
-        try { t = localStorage.getItem(THEME_KEY); } catch (e) {}
+        try {
+            var match = (w.location.search || '').match(URL_THEME_RE);
+            if (match) t = match[1];
+        } catch (e) {}
         if (t !== 'dark' && t !== 'light') {
-            var c = d.cookie.match(/(?:^|;\s*)portal-theme=(dark|light)(?:;|$)/);
-            t = c ? c[1] : null;
-        }
-        if (t !== 'dark' && t !== 'light') {
-            try { t = sessionStorage.getItem(THEME_KEY); } catch (e) {}
+            try { t = w.localStorage.getItem(THEME_KEY); } catch (e) {}
         }
         if (t !== 'dark' && t !== 'light') t = 'light';
         return t;
@@ -38,7 +38,7 @@
         'html[data-theme="dark"]{--background:#0F172A;--card:#1E293B;--text-dark:#F1F5F9;--text-light:#94A3B8;--border:#334155;--primary-light:#312E81;color-scheme:dark}' +
         'html,body{margin:0;min-height:100vh;background-color:var(--background);color:var(--text-dark);color-scheme:light}';
     d.head.appendChild(style);
-})(document);
+})(document, window);
     </script>
     <title>Support Center | Rapid Prototyping Lab</title>
     <script src="assets/js/portal-preferences.js"></script>
