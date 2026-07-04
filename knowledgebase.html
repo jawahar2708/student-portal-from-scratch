@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+(function (d) {
+    var THEME_KEY = 'portal-theme';
+    function readTheme() {
+        var t = null;
+        try { t = localStorage.getItem(THEME_KEY); } catch (e) {}
+        if (t !== 'dark' && t !== 'light') {
+            var c = d.cookie.match(/(?:^|;\s*)portal-theme=(dark|light)(?:;|$)/);
+            t = c ? c[1] : null;
+        }
+        if (t !== 'dark' && t !== 'light') {
+            try { t = sessionStorage.getItem(THEME_KEY); } catch (e) {}
+        }
+        if (t !== 'dark' && t !== 'light') t = 'light';
+        return t;
+    }
+    var theme = readTheme();
+    var root = d.documentElement;
+    var isDark = theme === 'dark';
+    if (isDark) {
+        root.setAttribute('data-theme', 'dark');
+        root.style.colorScheme = 'dark';
+        root.style.backgroundColor = '#0F172A';
+    } else {
+        root.removeAttribute('data-theme');
+        root.style.colorScheme = 'light';
+        root.style.backgroundColor = '#F4F7FC';
+    }
+    var style = d.createElement('style');
+    style.id = 'portal-theme-critical';
+    style.textContent =
+        ':root{--background:#F4F7FC;--card:#FFF;--text-dark:#1F2937;--text-light:#6B7280;--border:#E5E7EB;--primary:#4F46E5;--primary-light:#EEF2FF}' +
+        'html[data-theme="dark"]{--background:#0F172A;--card:#1E293B;--text-dark:#F1F5F9;--text-light:#94A3B8;--border:#334155;--primary-light:#312E81;color-scheme:dark}' +
+        'html,body{margin:0;min-height:100vh;background-color:var(--background);color:var(--text-dark);color-scheme:light}';
+    d.head.appendChild(style);
+})(document);
+    </script>
+    <title>Knowledge Base | Rapid Prototyping Lab</title>
+    <script src="assets/js/portal-preferences.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/knowledgebase.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="assets/images/OIP.webp" alt="Rapid Prototyping Lab">
+            <div class="logo-text">
+                <h2>ILP</h2>
+                <p>Rapid Prototyping Lab</p>
+            </div>
+        </div>
+        <nav class="sidebar-menu">
+            <p class="menu-title">STUDENT PORTAL</p>
+            <ul>
+                <li class="menu-item">
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house menu-icon"></i>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="myprofile.html">
+                        <i class="fa-solid fa-user menu-icon"></i>
+                        <span class="menu-text">My Profile</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a href="#" class="submenu-toggle">
+                        <i class="fa-solid fa-folder-open menu-icon"></i>
+                        <span class="menu-text">My Projects</span>
+                        <i class="fa-solid fa-chevron-down submenu-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="ongoingprojects.html">
+                                <i class="fa-solid fa-spinner submenu-icon"></i>
+                                <span>Ongoing Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="completedprojects.html">
+                                <i class="fa-solid fa-circle-check submenu-icon"></i>
+                                <span>Completed Projects</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="supportcenter.html">
+                        <i class="fa-solid fa-headset menu-icon"></i>
+                        <span class="menu-text">Support Center</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="knowledgebase.html">
+                        <i class="fa-solid fa-book menu-icon"></i>
+                        <span class="menu-text">Knowledge Base</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear menu-icon"></i>
+                        <span class="menu-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="top-navbar">
+            <div class="nav-left">
+                <button class="menu-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="page-title">
+                    <h2>Knowledge Base</h2>
+                    <p>Browse project resources and guidelines</p>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="notification-container">
+                    <i class="fa-solid fa-bell" style="font-size:20px;color:var(--text-dark);"></i>
+                    <span class="badge">3</span>
+                    <div class="notification-dropdown">
+                        <div class="notif-header">
+                            <h4>Notifications</h4>
+                            <a href="#">Mark all read</a>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
+                                <div>
+                                    <p>Stage 1 approved by mentor</p>
+                                    <small>2 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-comment" style="color:var(--primary);"></i>
+                                <div>
+                                    <p>New feedback on your abstract</p>
+                                    <small>5 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item">
+                                <i class="fa-solid fa-clock" style="color:var(--warning);"></i>
+                                <div>
+                                    <p>Stage 3 deadline in 2 days</p>
+                                    <small>1 day ago</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notif-footer">
+                            <a href="#">View All Notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <img src="assets/images/OIP.webp" alt="Student">
+                    <div class="user-info">
+                        <h4>Trainee1</h4>
+                        <p>Student</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+            <div class="content-wrapper">
+                <div class="dashboard-header"><div><h1>Knowledge Base</h1><p>Browse project resources, guidelines, and reference materials</p></div></div>
+<div class="stats-grid"><div class="stat-card"><div class="stat-icon" style="background:var(--primary-light);color:var(--primary);"><i class="fa-solid fa-book-open"></i></div><div class="stat-info"><h3>24</h3><p>Total Resources</p></div></div><div class="stat-card"><div class="stat-icon" style="background:#D1FAE5;color:var(--success);"><i class="fa-solid fa-file-lines"></i></div><div class="stat-info"><h3>8</h3><p>Project Reports</p></div></div><div class="stat-card"><div class="stat-icon" style="background:#FEF3C7;color:var(--warning);"><i class="fa-solid fa-lightbulb"></i></div><div class="stat-info"><h3>12</h3><p>Guidelines</p></div></div><div class="stat-card"><div class="stat-icon" style="background:#EDE9FE;color:#7C3AED;"><i class="fa-solid fa-clipboard-list"></i></div><div class="stat-info"><h3>4</h3><p>Templates</p></div></div></div>
+<div class="kb-tabs"><button class="kb-tab active" data-tab="resources">Resources</button><button class="kb-tab" data-tab="reports">Project Reports</button><button class="kb-tab" data-tab="request">Request Report</button></div>
+<div class="kb-panel active" id="resources"><div class="search-box" style="margin-bottom:20px;"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search resources..."></div><div class="resource-grid"><div class="kb-card"><div class="kb-icon"><i class="fa-solid fa-file-pdf"></i></div><h4>Project Documentation Guide</h4><p>Complete guide for documenting your ILP project stages</p><span class="kb-tag">PDF • 2.4 MB</span></div><div class="kb-card"><div class="kb-icon"><i class="fa-solid fa-file-powerpoint"></i></div><h4>Presentation Template</h4><p>Standard template for final project presentations</p><span class="kb-tag">PPTX • 1.8 MB</span></div><div class="kb-card"><div class="kb-icon"><i class="fa-solid fa-file-word"></i></div><h4>Abstract Writing Guide</h4><p>Format and guidelines for writing project abstracts</p><span class="kb-tag">DOCX • 520 KB</span></div><div class="kb-card"><div class="kb-icon"><i class="fa-solid fa-file-pdf"></i></div><h4>Lab Safety Manual</h4><p>Safety protocols for Rapid Prototyping Lab equipment</p><span class="kb-tag">PDF • 3.1 MB</span></div><div class="kb-card"><div class="kb-icon"><i class="fa-solid fa-file-pdf"></i></div><h4>IEEE Paper Format</h4><p>Standard IEEE paper formatting guidelines</p><span class="kb-tag">PDF • 1.2 MB</span></div><div class="kb-card"><div class="kb-icon"><i class="fa-solid fa-file-word"></i></div><h4>Report Template</h4><p>Final project report template with sections</p><span class="kb-tag">DOCX • 890 KB</span></div></div></div>
+<div class="kb-panel" id="reports"><div class="panel"><h3>Completed Project Reports</h3><p style="color:var(--text-light);margin-bottom:20px;">Browse reports from completed student projects.</p><div class="table-wrapper"><table><thead><tr><th>#</th><th>Project</th><th>Domain</th><th>Team</th><th>Year</th><th>Status</th></tr></thead><tbody><tr><td>1</td><td>Health Monitoring System</td><td>Healthcare</td><td>Team Alpha</td><td>2025</td><td><span class="status-pill success">Available</span></td></tr><tr><td>2</td><td>Smart Parking System</td><td>Smart City</td><td>Team Beta</td><td>2025</td><td><span class="status-pill success">Available</span></td></tr><tr><td>3</td><td>E-Learning Portal</td><td>Education</td><td>Team Gamma</td><td>2025</td><td><span class="status-pill success">Available</span></td></tr><tr><td>4</td><td>Solar Panel Monitor</td><td>Energy</td><td>Team Delta</td><td>2024</td><td><span class="status-pill success">Available</span></td></tr><tr><td>5</td><td>Water Quality Tracker</td><td>Environment</td><td>Team Epsilon</td><td>2024</td><td><span class="status-pill warning">Restricted</span></td></tr><tr><td>6</td><td>Attendance System</td><td>Education</td><td>Team Zeta</td><td>2024</td><td><span class="status-pill warning">Restricted</span></td></tr></tbody></table></div></div></div>
+<div class="kb-panel" id="request"><div class="panel"><h3>Request Access to Reports</h3><p style="color:var(--text-light);margin-bottom:20px;">Request access to restricted project reports.</p><form id="reportRequestForm"><div class="form-row"><div class="form-group"><label>Report Name <span class="required">*</span></label><select required><option value="">Select Report</option><option>Water Quality Tracker</option><option>Attendance System</option></select></div><div class="form-group"><label>Purpose <span class="required">*</span></label><select required><option value="">Select Purpose</option><option>Academic Reference</option><option>Research</option><option>Project Comparison</option></select></div></div><div class="form-group"><label>Reason <span class="required">*</span></label><textarea rows="4" required placeholder="Explain why you need access"></textarea></div><button type="submit" class="btn btn-primary">Submit Request</button></form></div></div>
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">
+            <p>&copy; 2026 Rapid Prototyping Lab Management System. All Rights Reserved.</p>
+        </footer>
+    </main>
+</div>
+<script src="assets/js/global.js"></script>
+<script src="assets/js/knowledgebase.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* ==========================================================
+   KNOWLEDGE BASE - Page Specific Styles
+========================================================== */
+
+/* KB Tabs */
+.kb-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 25px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 5px;
+    box-shadow: var(--shadow);
+}
+
+.kb-tab {
+    padding: 10px 25px;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.kb-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.kb-tab:hover:not(.active) {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+/* KB Panels */
+.kb-panel {
+    display: none;
+}
+
+.kb-panel.active {
+    display: block;
+}
+
+/* Resource Grid */
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.kb-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.kb-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+}
+
+.kb-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.kb-icon i {
+    font-size: 22px;
+    color: var(--primary);
+}
+
+.kb-card h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.kb-card p {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.kb-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--background);
+    color: var(--text-light);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .resource-grid {
+        grid-template-columns: 1fr;
+    }
+    .kb-tabs {
+        flex-wrap: wrap;
+    }
+}

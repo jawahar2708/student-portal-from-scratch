@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+(function (d) {
+    var THEME_KEY = 'portal-theme';
+    function readTheme() {
+        var t = null;
+        try { t = localStorage.getItem(THEME_KEY); } catch (e) {}
+        if (t !== 'dark' && t !== 'light') {
+            var c = d.cookie.match(/(?:^|;\s*)portal-theme=(dark|light)(?:;|$)/);
+            t = c ? c[1] : null;
+        }
+        if (t !== 'dark' && t !== 'light') {
+            try { t = sessionStorage.getItem(THEME_KEY); } catch (e) {}
+        }
+        if (t !== 'dark' && t !== 'light') t = 'light';
+        return t;
+    }
+    var theme = readTheme();
+    var root = d.documentElement;
+    var isDark = theme === 'dark';
+    if (isDark) {
+        root.setAttribute('data-theme', 'dark');
+        root.style.colorScheme = 'dark';
+        root.style.backgroundColor = '#0F172A';
+    } else {
+        root.removeAttribute('data-theme');
+        root.style.colorScheme = 'light';
+        root.style.backgroundColor = '#F4F7FC';
+    }
+    var style = d.createElement('style');
+    style.id = 'portal-theme-critical';
+    style.textContent =
+        ':root{--background:#F4F7FC;--card:#FFF;--text-dark:#1F2937;--text-light:#6B7280;--border:#E5E7EB;--primary:#4F46E5;--primary-light:#EEF2FF}' +
+        'html[data-theme="dark"]{--background:#0F172A;--card:#1E293B;--text-dark:#F1F5F9;--text-light:#94A3B8;--border:#334155;--primary-light:#312E81;color-scheme:dark}' +
+        'html,body{margin:0;min-height:100vh;background-color:var(--background);color:var(--text-dark);color-scheme:light}';
+    d.head.appendChild(style);
+})(document);
+    </script>
+    <title>Support Center | Rapid Prototyping Lab</title>
+    <script src="assets/js/portal-preferences.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/supportcenter.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="assets/images/OIP.webp" alt="Rapid Prototyping Lab">
+            <div class="logo-text">
+                <h2>ILP</h2>
+                <p>Rapid Prototyping Lab</p>
+            </div>
+        </div>
+        <nav class="sidebar-menu">
+            <p class="menu-title">STUDENT PORTAL</p>
+            <ul>
+                <li class="menu-item">
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house menu-icon"></i>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="myprofile.html">
+                        <i class="fa-solid fa-user menu-icon"></i>
+                        <span class="menu-text">My Profile</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a href="#" class="submenu-toggle">
+                        <i class="fa-solid fa-folder-open menu-icon"></i>
+                        <span class="menu-text">My Projects</span>
+                        <i class="fa-solid fa-chevron-down submenu-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="ongoingprojects.html">
+                                <i class="fa-solid fa-spinner submenu-icon"></i>
+                                <span>Ongoing Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="completedprojects.html">
+                                <i class="fa-solid fa-circle-check submenu-icon"></i>
+                                <span>Completed Projects</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="supportcenter.html">
+                        <i class="fa-solid fa-headset menu-icon"></i>
+                        <span class="menu-text">Support Center</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="knowledgebase.html">
+                        <i class="fa-solid fa-book menu-icon"></i>
+                        <span class="menu-text">Knowledge Base</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear menu-icon"></i>
+                        <span class="menu-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="top-navbar">
+            <div class="nav-left">
+                <button class="menu-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="page-title">
+                    <h2>Support Center</h2>
+                    <p>Get help and manage support tickets</p>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="notification-container">
+                    <i class="fa-solid fa-bell" style="font-size:20px;color:var(--text-dark);"></i>
+                    <span class="badge">3</span>
+                    <div class="notification-dropdown">
+                        <div class="notif-header">
+                            <h4>Notifications</h4>
+                            <a href="#">Mark all read</a>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
+                                <div>
+                                    <p>Stage 1 approved by mentor</p>
+                                    <small>2 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-comment" style="color:var(--primary);"></i>
+                                <div>
+                                    <p>New feedback on your abstract</p>
+                                    <small>5 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item">
+                                <i class="fa-solid fa-clock" style="color:var(--warning);"></i>
+                                <div>
+                                    <p>Stage 3 deadline in 2 days</p>
+                                    <small>1 day ago</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notif-footer">
+                            <a href="#">View All Notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <img src="assets/images/OIP.webp" alt="Student">
+                    <div class="user-info">
+                        <h4>Trainee1</h4>
+                        <p>Student</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+            <div class="content-wrapper">
+                <div class="dashboard-header"><div><h1>Support Center</h1><p>Raise tickets, find answers, and contact faculty</p></div></div>
+<div class="support-tabs"><button class="support-tab active" data-tab="tickets"><i class="fa-solid fa-ticket"></i> My Tickets</button><button class="support-tab" data-tab="help"><i class="fa-solid fa-circle-question"></i> Help Center</button><button class="support-tab" data-tab="contact"><i class="fa-solid fa-address-book"></i> Contact Faculty</button></div>
+<div class="support-panel active" id="tickets"><div class="panel"><div class="panel-header"><h3>My Support Tickets</h3><button class="btn btn-primary" id="raiseTicketBtn"><i class="fa-solid fa-plus"></i> Raise Ticket</button></div><div class="table-wrapper"><table><thead><tr><th>Ticket ID</th><th>Subject</th><th>Category</th><th>Status</th><th>Created</th></tr></thead><tbody><tr><td>#TKT-001</td><td>Unable to upload documents</td><td>Technical</td><td><span class="status-pill warning">In Progress</span></td><td>Jul 01, 2026</td></tr><tr><td>#TKT-002</td><td>Stage 2 not updating</td><td>Technical</td><td><span class="status-pill success">Resolved</span></td><td>Jun 28, 2026</td></tr><tr><td>#TKT-003</td><td>Request for project extension</td><td>Academic</td><td><span class="status-pill danger">Closed</span></td><td>Jun 20, 2026</td></tr></tbody></table></div></div><div class="modal-overlay" id="ticketModal"><div class="modal"><div class="modal-header"><h3>Raise New Ticket</h3><button class="modal-close" id="closeTicketModal">&times;</button></div><form id="ticketForm" class="modal-body"><div class="form-group"><label>Subject <span class="required">*</span></label><input type="text" required placeholder="Brief description"></div><div class="form-group"><label>Category <span class="required">*</span></label><select required><option value="">Select Category</option><option>Technical</option><option>Academic</option><option>General</option></select></div><div class="form-group"><label>Description <span class="required">*</span></label><textarea rows="4" required placeholder="Describe your issue"></textarea></div><div class="form-group"><label>Attachment</label><input type="file" accept=".pdf,.jpg,.png"></div><div class="modal-footer"><button type="submit" class="btn btn-primary">Submit Ticket</button><button type="button" class="btn btn-secondary" id="cancelTicket">Cancel</button></div></form></div></div></div>
+<div class="support-panel" id="help"><div class="panel"><h3>Frequently Asked Questions</h3><div class="search-box" style="margin-bottom:20px;"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search FAQs..."></div><div class="faq-list"><div class="faq-item"><div class="faq-question"><span>How do I upload documents for a stage?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><p>Navigate to Ongoing Projects → Stage Tracking. Click on the upload area or drag and drop your file.</p></div></div><div class="faq-item"><div class="faq-question"><span>What happens if my submission is rejected?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><p>The status will show 'Revision Needed' with mentor feedback. You can resubmit from the same stage.</p></div></div><div class="faq-item"><div class="faq-question"><span>How do I book lab equipment?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><p>Go to Ongoing Projects → Stage Tracking → Equipment Slot Booking section.</p></div></div><div class="faq-item"><div class="faq-question"><span>Can I change my project team?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><p>Team changes require faculty approval. Raise a support ticket under 'Academic' category.</p></div></div><div class="faq-item"><div class="faq-question"><span>How do I request a deadline extension?</span><i class="fa-solid fa-chevron-down"></i></div><div class="faq-answer"><p>Raise a support ticket with 'Academic' category and provide your reason and proposed deadline.</p></div></div></div></div></div>
+<div class="support-panel" id="contact"><div class="panel"><h3>Faculty Directory</h3><div class="faculty-grid"><div class="faculty-card"><div class="faculty-avatar">RK</div><h4>Dr. R. Karthikeyan</h4><p class="faculty-dept">Computer Science</p><p class="faculty-role">Your Project Mentor</p><div class="faculty-contact"><a href="#"><i class="fa-solid fa-envelope"></i> rkarthikeyan@shceru.edu.in</a><a href="#"><i class="fa-solid fa-phone"></i> +91 98765 43210</a></div><button class="btn btn-primary btn-sm">Send Message</button></div><div class="faculty-card"><div class="faculty-avatar">SK</div><h4>Dr. S. Kumar</h4><p class="faculty-dept">Electronics</p><p class="faculty-role">Lab Coordinator</p><div class="faculty-contact"><a href="#"><i class="fa-solid fa-envelope"></i> skumar@shceru.edu.in</a><a href="#"><i class="fa-solid fa-phone"></i> +91 98765 43211</a></div><button class="btn btn-outline btn-sm">Send Message</button></div><div class="faculty-card"><div class="faculty-avatar">AD</div><h4>Dr. A. Devi</h4><p class="faculty-dept">Information Technology</p><p class="faculty-role">HOD</p><div class="faculty-contact"><a href="#"><i class="fa-solid fa-envelope"></i> adevi@shceru.edu.in</a><a href="#"><i class="fa-solid fa-phone"></i> +91 98765 43212</a></div><button class="btn btn-outline btn-sm">Send Message</button></div></div></div></div>
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">
+            <p>&copy; 2026 Rapid Prototyping Lab Management System. All Rights Reserved.</p>
+        </footer>
+    </main>
+</div>
+<script src="assets/js/global.js"></script>
+<script src="assets/js/supportcenter.js"></script>
+</body>
+</html>

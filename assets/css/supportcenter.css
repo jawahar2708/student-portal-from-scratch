@@ -1,0 +1,200 @@
+/* ==========================================================
+   SUPPORT CENTER - Page Specific Styles
+========================================================== */
+
+/* Support Tabs */
+.support-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 25px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 5px;
+    box-shadow: var(--shadow);
+}
+
+.support-tab {
+    padding: 10px 25px;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.support-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.support-tab:hover:not(.active) {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+/* Support Panels */
+.support-panel {
+    display: none;
+}
+
+.support-panel.active {
+    display: block;
+}
+
+/* FAQ */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.faq-item {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.faq-item:hover {
+    border-color: var(--primary);
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-dark);
+    transition: background 0.3s;
+}
+
+.faq-question:hover {
+    background: var(--primary-light);
+}
+
+.faq-question i {
+    transition: transform 0.3s;
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    display: none;
+    padding: 0 20px 15px;
+}
+
+.faq-item.open .faq-answer {
+    display: block;
+}
+
+.faq-answer p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Faculty Grid */
+.faculty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.faculty-card {
+    background: var(--background);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 1px solid var(--border);
+}
+
+.faculty-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+}
+
+.faculty-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 auto 12px;
+}
+
+.faculty-card h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.faculty-dept {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 2px;
+}
+
+.faculty-role {
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.faculty-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.faculty-contact a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-light);
+    transition: color 0.3s;
+}
+
+.faculty-contact a:hover {
+    color: var(--primary);
+}
+
+.faculty-contact i {
+    width: 16px;
+    text-align: center;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .support-tabs {
+        flex-wrap: wrap;
+    }
+    .faculty-grid {
+        grid-template-columns: 1fr;
+    }
+}

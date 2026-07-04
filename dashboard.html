@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+(function (d) {
+    var THEME_KEY = 'portal-theme';
+    function readTheme() {
+        var t = null;
+        try { t = localStorage.getItem(THEME_KEY); } catch (e) {}
+        if (t !== 'dark' && t !== 'light') {
+            var c = d.cookie.match(/(?:^|;\s*)portal-theme=(dark|light)(?:;|$)/);
+            t = c ? c[1] : null;
+        }
+        if (t !== 'dark' && t !== 'light') {
+            try { t = sessionStorage.getItem(THEME_KEY); } catch (e) {}
+        }
+        if (t !== 'dark' && t !== 'light') t = 'light';
+        return t;
+    }
+    var theme = readTheme();
+    var root = d.documentElement;
+    var isDark = theme === 'dark';
+    if (isDark) {
+        root.setAttribute('data-theme', 'dark');
+        root.style.colorScheme = 'dark';
+        root.style.backgroundColor = '#0F172A';
+    } else {
+        root.removeAttribute('data-theme');
+        root.style.colorScheme = 'light';
+        root.style.backgroundColor = '#F4F7FC';
+    }
+    var style = d.createElement('style');
+    style.id = 'portal-theme-critical';
+    style.textContent =
+        ':root{--background:#F4F7FC;--card:#FFF;--text-dark:#1F2937;--text-light:#6B7280;--border:#E5E7EB;--primary:#4F46E5;--primary-light:#EEF2FF}' +
+        'html[data-theme="dark"]{--background:#0F172A;--card:#1E293B;--text-dark:#F1F5F9;--text-light:#94A3B8;--border:#334155;--primary-light:#312E81;color-scheme:dark}' +
+        'html,body{margin:0;min-height:100vh;background-color:var(--background);color:var(--text-dark);color-scheme:light}';
+    d.head.appendChild(style);
+})(document);
+    </script>
+    <title>Dashboard | Rapid Prototyping Lab</title>
+    <script src="assets/js/portal-preferences.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="assets/images/OIP.webp" alt="Rapid Prototyping Lab">
+            <div class="logo-text">
+                <h2>ILP</h2>
+                <p>Rapid Prototyping Lab</p>
+            </div>
+        </div>
+        <nav class="sidebar-menu">
+            <p class="menu-title">STUDENT PORTAL</p>
+            <ul>
+                <li class="menu-item">
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house menu-icon"></i>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="myprofile.html">
+                        <i class="fa-solid fa-user menu-icon"></i>
+                        <span class="menu-text">My Profile</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a href="#" class="submenu-toggle">
+                        <i class="fa-solid fa-folder-open menu-icon"></i>
+                        <span class="menu-text">My Projects</span>
+                        <i class="fa-solid fa-chevron-down submenu-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="ongoingprojects.html">
+                                <i class="fa-solid fa-spinner submenu-icon"></i>
+                                <span>Ongoing Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="completedprojects.html">
+                                <i class="fa-solid fa-circle-check submenu-icon"></i>
+                                <span>Completed Projects</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="supportcenter.html">
+                        <i class="fa-solid fa-headset menu-icon"></i>
+                        <span class="menu-text">Support Center</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="knowledgebase.html">
+                        <i class="fa-solid fa-book menu-icon"></i>
+                        <span class="menu-text">Knowledge Base</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear menu-icon"></i>
+                        <span class="menu-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="top-navbar">
+            <div class="nav-left">
+                <button class="menu-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="page-title">
+                    <h2>Dashboard</h2>
+                    <p>Welcome back to your Student Portal</p>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="notification-container">
+                    <i class="fa-solid fa-bell" style="font-size:20px;color:var(--text-dark);"></i>
+                    <span class="badge">3</span>
+                    <div class="notification-dropdown">
+                        <div class="notif-header">
+                            <h4>Notifications</h4>
+                            <a href="#">Mark all read</a>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
+                                <div>
+                                    <p>Stage 1 approved by mentor</p>
+                                    <small>2 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-comment" style="color:var(--primary);"></i>
+                                <div>
+                                    <p>New feedback on your abstract</p>
+                                    <small>5 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item">
+                                <i class="fa-solid fa-clock" style="color:var(--warning);"></i>
+                                <div>
+                                    <p>Stage 3 deadline in 2 days</p>
+                                    <small>1 day ago</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notif-footer">
+                            <a href="#">View All Notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <img src="assets/images/OIP.webp" alt="Student">
+                    <div class="user-info">
+                        <h4>Trainee1</h4>
+                        <p>Student</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+            <div class="content-wrapper">
+                <div class="dashboard-header"><div><h1>Welcome, Trainee1! 👋</h1><p>Here's your project activity overview</p></div></div>
+<div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon" style="background:var(--primary-light);color:var(--primary);"><i class="fa-solid fa-folder-open"></i></div><div class="stat-info"><h3>1</h3><p>Active Projects</p></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#D1FAE5;color:var(--success);"><i class="fa-solid fa-circle-check"></i></div><div class="stat-info"><h3>4</h3><p>Completed</p></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#FEF3C7;color:var(--warning);"><i class="fa-solid fa-clock"></i></div><div class="stat-info"><h3>3</h3><p>Pending Stages</p></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#FEE2E2;color:var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="stat-info"><h3>1</h3><p>Overdue</p></div></div>
+</div>
+<div class="dashboard-grid">
+    <div class="panel"><h3><i class="fa-solid fa-bolt"></i> Current Project</h3><div class="current-project-card"><div class="project-badge">Active</div><h4>Smart Inventory Management System</h4><p>Stage 3 of 10 • Problem Statement</p><div class="progress-bar-container"><div class="progress-bar" style="width:30%;"></div></div><span class="progress-text">30% Complete</span><a href="ongoingprojects.html" class="view-btn">View Details →</a></div></div>
+    <div class="panel"><h3><i class="fa-solid fa-calendar"></i> Upcoming Deadlines</h3><div class="deadline-list"><div class="deadline-item urgent"><div class="deadline-date"><span class="day">08</span><span class="month">Jul</span></div><div class="deadline-info"><h4>Problem Statement</h4><p>Smart Inventory System</p></div><span class="deadline-badge urgent">3 days</span></div><div class="deadline-item"><div class="deadline-date"><span class="day">15</span><span class="month">Jul</span></div><div class="deadline-info"><h4>Literature Survey</h4><p>Smart Inventory System</p></div><span class="deadline-badge">10 days</span></div><div class="deadline-item"><div class="deadline-date"><span class="day">22</span><span class="month">Jul</span></div><div class="deadline-info"><h4>System Design</h4><p>Smart Inventory System</p></div><span class="deadline-badge">17 days</span></div></div></div>
+</div>
+<div class="panel" style="margin-top:25px;"><h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</h3><div class="activity-list"><div class="activity-item"><div class="activity-dot" style="background:var(--success);"></div><div><p><strong>Abstract</strong> was approved by Dr. R. Karthikeyan</p><small>2 hours ago</small></div></div><div class="activity-item"><div class="activity-dot" style="background:var(--warning);"></div><div><p>Deadline reminder: <strong>Problem Statement</strong> due in 3 days</p><small>5 hours ago</small></div></div><div class="activity-item"><div class="activity-dot" style="background:var(--primary);"></div><div><p>You submitted <strong>Abstract v2</strong> for review</p><small>1 day ago</small></div></div><div class="activity-item"><div class="activity-dot" style="background:var(--danger);"></div><div><p><strong>Abstract v1</strong> was sent back for revision</p><small>3 days ago</small></div></div></div></div>
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">
+            <p>&copy; 2026 Rapid Prototyping Lab Management System. All Rights Reserved.</p>
+        </footer>
+    </main>
+</div>
+<script src="assets/js/global.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>

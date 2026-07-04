@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+(function (d) {
+    var THEME_KEY = 'portal-theme';
+    function readTheme() {
+        var t = null;
+        try { t = localStorage.getItem(THEME_KEY); } catch (e) {}
+        if (t !== 'dark' && t !== 'light') {
+            var c = d.cookie.match(/(?:^|;\s*)portal-theme=(dark|light)(?:;|$)/);
+            t = c ? c[1] : null;
+        }
+        if (t !== 'dark' && t !== 'light') {
+            try { t = sessionStorage.getItem(THEME_KEY); } catch (e) {}
+        }
+        if (t !== 'dark' && t !== 'light') t = 'light';
+        return t;
+    }
+    var theme = readTheme();
+    var root = d.documentElement;
+    var isDark = theme === 'dark';
+    if (isDark) {
+        root.setAttribute('data-theme', 'dark');
+        root.style.colorScheme = 'dark';
+        root.style.backgroundColor = '#0F172A';
+    } else {
+        root.removeAttribute('data-theme');
+        root.style.colorScheme = 'light';
+        root.style.backgroundColor = '#F4F7FC';
+    }
+    var style = d.createElement('style');
+    style.id = 'portal-theme-critical';
+    style.textContent =
+        ':root{--background:#F4F7FC;--card:#FFF;--text-dark:#1F2937;--text-light:#6B7280;--border:#E5E7EB;--primary:#4F46E5;--primary-light:#EEF2FF}' +
+        'html[data-theme="dark"]{--background:#0F172A;--card:#1E293B;--text-dark:#F1F5F9;--text-light:#94A3B8;--border:#334155;--primary-light:#312E81;color-scheme:dark}' +
+        'html,body{margin:0;min-height:100vh;background-color:var(--background);color:var(--text-dark);color-scheme:light}';
+    d.head.appendChild(style);
+})(document);
+    </script>
+    <title>Ongoing Projects | Rapid Prototyping Lab</title>
+    <script src="assets/js/portal-preferences.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/ongoingprojects.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="assets/images/OIP.webp" alt="Rapid Prototyping Lab">
+            <div class="logo-text">
+                <h2>ILP</h2>
+                <p>Rapid Prototyping Lab</p>
+            </div>
+        </div>
+        <nav class="sidebar-menu">
+            <p class="menu-title">STUDENT PORTAL</p>
+            <ul>
+                <li class="menu-item">
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-house menu-icon"></i>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="myprofile.html">
+                        <i class="fa-solid fa-user menu-icon"></i>
+                        <span class="menu-text">My Profile</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a href="#" class="submenu-toggle">
+                        <i class="fa-solid fa-folder-open menu-icon"></i>
+                        <span class="menu-text">My Projects</span>
+                        <i class="fa-solid fa-chevron-down submenu-arrow"></i>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="ongoingprojects.html">
+                                <i class="fa-solid fa-spinner submenu-icon"></i>
+                                <span>Ongoing Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="completedprojects.html">
+                                <i class="fa-solid fa-circle-check submenu-icon"></i>
+                                <span>Completed Projects</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="supportcenter.html">
+                        <i class="fa-solid fa-headset menu-icon"></i>
+                        <span class="menu-text">Support Center</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="knowledgebase.html">
+                        <i class="fa-solid fa-book menu-icon"></i>
+                        <span class="menu-text">Knowledge Base</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear menu-icon"></i>
+                        <span class="menu-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="top-navbar">
+            <div class="nav-left">
+                <button class="menu-btn"><i class="fa-solid fa-bars"></i></button>
+                <div class="page-title">
+                    <h2>Ongoing Projects</h2>
+                    <p>Track and manage your active projects</p>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="notification-container">
+                    <i class="fa-solid fa-bell" style="font-size:20px;color:var(--text-dark);"></i>
+                    <span class="badge">3</span>
+                    <div class="notification-dropdown">
+                        <div class="notif-header">
+                            <h4>Notifications</h4>
+                            <a href="#">Mark all read</a>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-circle-check" style="color:var(--success);"></i>
+                                <div>
+                                    <p>Stage 1 approved by mentor</p>
+                                    <small>2 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item unread">
+                                <i class="fa-solid fa-comment" style="color:var(--primary);"></i>
+                                <div>
+                                    <p>New feedback on your abstract</p>
+                                    <small>5 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="notif-item">
+                                <i class="fa-solid fa-clock" style="color:var(--warning);"></i>
+                                <div>
+                                    <p>Stage 3 deadline in 2 days</p>
+                                    <small>1 day ago</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notif-footer">
+                            <a href="#">View All Notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-profile">
+                    <img src="assets/images/OIP.webp" alt="Student">
+                    <div class="user-info">
+                        <h4>Trainee1</h4>
+                        <p>Student</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+            <div class="content-wrapper">
+                <div class="dashboard-header"><div><h1>Ongoing Projects</h1><p>Track stages, upload documents, and monitor your project progress</p></div></div>
+<div class="project-hero"><div class="project-hero-info"><span class="active-badge">● Active</span><h2>Smart Inventory Management System</h2><p>Track project stages, upload required documents, view team details, and manage your ILP project.</p></div><div class="project-meta-cards"><div class="meta-card"><div class="meta-icon" style="background:var(--primary-light);color:var(--primary);">👨🏫</div><div><h4>Faculty Mentor</h4><p>Dr. R. Karthikeyan</p></div></div><div class="meta-card"><div class="meta-icon" style="background:#D1FAE5;color:var(--success);">📌</div><div><h4>Current Stage</h4><p>Problem Statement</p><small>Stage 3 of 10</small></div></div><div class="meta-card"><div class="meta-icon" style="background:#FEF3C7;color:var(--warning);">📅</div><div><h4>Start Date</h4><p>Feb 10, 2026</p></div></div><div class="meta-card"><div class="meta-icon" style="background:#FEE2E2;color:var(--danger);">⏰</div><div><h4>Next Deadline</h4><p>Jul 08, 2026</p><small class="deadline-countdown">3 days left</small></div></div></div></div>
+<div class="project-tabs"><button class="project-tab active" data-tab="project-overview">Ongoing Project Overview</button><button class="project-tab" data-tab="tracking">Stage Tracking</button></div>
+<div class="tab-panel active" id="project-overview"><div class="panel"><h3>Project Overview</h3><p>The Smart Inventory Management System helps institutions manage stock efficiently with barcode tracking, real-time stock updates, low-stock alerts, supplier management, and analytics dashboards. Built as a full-stack web application for the Rapid Prototyping Lab ILP program.</p><div class="overview-grid"><div class="overview-box"><h4>Domain</h4><p>Inventory Management</p></div><div class="overview-box"><h4>Technology</h4><p>Node.js, Express, MongoDB</p></div><div class="overview-box"><h4>Type</h4><p>Web Application</p></div><div class="overview-box"><h4>Status</h4><p class="status-active">Active</p></div></div></div><div class="panel"><h3>Team Members</h3><div class="team-grid"><div class="team-member leader"><div class="member-avatar">T</div><h4>Trainee1</h4><p>22BCS001</p><span class="leader-badge">Team Leader</span></div><div class="team-member"><div class="member-avatar">A</div><h4>Ajay</h4><p>22BCS002</p><span>Member</span></div><div class="team-member"><div class="member-avatar">K</div><h4>Karthik</h4><p>22BCS003</p><span>Member</span></div><div class="team-member"><div class="member-avatar">P</div><h4>Praveen</h4><p>22BCS004</p><span>Member</span></div><div class="team-member"><div class="member-avatar">R</div><h4>Rahul</h4><p>22BCS005</p><span>Member</span></div></div></div></div>
+<div class="tab-panel" id="tracking">
+    <div class="visual-stepper" id="visualStepper">
+        <div class="stepper-step completed" data-stage-id="1"><div class="step-circle"><i class="fa-solid fa-check"></i></div><span>Title</span></div>
+        <div class="stepper-line completed"></div>
+        <div class="stepper-step completed" data-stage-id="2"><div class="step-circle"><i class="fa-solid fa-check"></i></div><span>Abstract</span></div>
+        <div class="stepper-line active"></div>
+        <div class="stepper-step current" data-stage-id="3"><div class="step-circle"><i class="fa-solid fa-arrow-up"></i></div><span>Problem<br>Statement</span></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step" data-stage-id="4"><div class="step-circle">4</div><span>Literature<br>Survey</span></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step" data-stage-id="5"><div class="step-circle">5</div><span>System<br>Design</span></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step" data-stage-id="6"><div class="step-circle">6</div><span>Modules</span></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step" data-stage-id="7"><div class="step-circle">7</div><span>Coding</span></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step" data-stage-id="8"><div class="step-circle">8</div><span>Testing</span></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step" data-stage-id="9"><div class="step-circle">9</div><span>Report</span></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-step" data-stage-id="10"><div class="step-circle">10</div><span>Presentation</span></div>
+    </div>
+    <div class="panel stage-detail-panel" id="stageDetailPanel">
+        <h3><i class="fa-solid fa-circle-info"></i> <span id="stageDetailTitle">Stage 3: Problem Statement</span></h3>
+        <div class="stage-detail-grid">
+            <div class="stage-detail-item"><label>Status</label><span id="stageDetailStatus" class="status-pill warning">In Progress</span></div>
+            <div class="stage-detail-item"><label>Deadline</label><p id="stageDetailDeadline">Jul 08, 2026</p></div>
+            <div class="stage-detail-item stage-detail-full"><label>Description</label><p id="stageDetailDescription">Submit a detailed problem statement document outlining the inventory management challenges and proposed solution scope.</p></div>
+            <div class="stage-detail-item stage-detail-full" id="stageDetailFeedbackWrap" style="display:none;"><label>Mentor Feedback</label><p id="stageDetailFeedback" class="stage-feedback"></p></div>
+        </div>
+    </div>
+    <div class="tracking-grid">
+        <div class="tracking-main">
+            <div class="panel progress-panel"><div class="progress-circle-container"><div class="progress-circle"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="45"></circle><circle class="fg" cx="50" cy="50" r="45" stroke-dasharray="283" stroke-dashoffset="198"></circle></svg><div class="progress-label">30%</div></div><div class="progress-info"><h4>Overall Progress</h4><p>2 of 10 stages completed</p><p>Project is on track. Next deadline in <strong>3 days</strong>.</p></div></div></div>
+            <div class="panel upload-panel" id="uploadPanel"><div class="upload-header"><div><h3 id="uploadTitle">Stage 3: Problem Statement</h3><p id="uploadDescription">Submit the problem statement document for review.</p></div><span class="countdown-badge" id="countdownBadge"><i class="fa-regular fa-clock"></i> 3 Days Left</span></div><div class="upload-area" id="uploadArea"><input type="file" id="documentUpload" hidden accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png"><i class="fa-solid fa-cloud-arrow-up"></i><h4>Drag & Drop or Click to Upload</h4><p id="fileName">PDF, DOC, DOCX, PPT, PPTX, JPG or PNG (Max 10MB)</p></div><div class="upload-actions"><button class="btn btn-primary" id="submitDocumentBtn">Submit Document</button><button class="btn btn-secondary" id="resetBtn">Reset</button></div></div>
+            <div class="panel" id="submissionHistoryPanel"><h3>Submission History</h3><div class="table-wrapper"><table><thead><tr><th>#</th><th>Stage</th><th>Document</th><th>Submitted</th><th>Status</th><th>Feedback</th></tr></thead><tbody id="submissionHistoryBody"></tbody></table></div></div>
+        </div>
+        <div class="tracking-sidebar">
+            <div class="panel resource-card"><h3>📦 Component Booking</h3><p>Request reusable lab components.</p><form class="resource-form" id="componentBookingForm"><label>Component<select name="component" required><option value="">Select component</option><option>Arduino Uno R3</option><option>Ultrasonic Sensor</option><option>RFID Reader</option><option>NodeMCU ESP8266</option></select></label><label>Quantity<input type="number" name="quantity" min="1" value="1" required></label><label>Purpose<textarea name="purpose" rows="2" placeholder="Required for prototype testing" required></textarea></label><button type="submit" class="btn btn-primary" id="bookComponentBtn">Submit Request</button></form></div>
+            <div class="panel resource-card"><h3>↩ Component Returning</h3><p>Return issued lab components.</p><form class="resource-form" id="componentReturnForm"><label>Component<select name="component" required><option value="">Select component</option><option>Arduino Uno R3</option><option>Ultrasonic Sensor</option></select></label><label>Quantity<input type="number" name="quantity" min="1" value="1" required></label><label>Remarks<textarea name="remarks" rows="2" placeholder="Working condition" required></textarea></label><button type="submit" class="btn btn-outline" id="returnBtn">Submit Return</button></form></div>
+            <div class="panel resource-card"><h3>🛠 Equipment Slot Booking</h3><p>Book lab machinery slots.</p><form class="resource-form" id="equipmentBookingForm"><label>Equipment<select name="equipment" id="equipBookingEquipment" required><option value="">Select equipment</option><option value="3D Printer">3D Printer</option><option value="Laser Cutter">Laser Cutter</option><option value="CNC Router">CNC Router</option><option value="PCB Mill">PCB Mill</option></select></label><label>Date<input type="date" name="date" id="equipBookingDate" required></label><label>Available Slots<input type="hidden" name="slot" id="equipSelectedSlot" required><div class="slot-picker" id="slotPicker"><p class="slot-picker-hint"><i class="fa-regular fa-calendar"></i> Select equipment and date to view slots</p></div><div class="slot-legend"><span><i class="slot-dot available"></i> Available</span><span><i class="slot-dot booked"></i> Booked</span><span><i class="slot-dot selected"></i> Selected</span></div></label><button type="submit" class="btn btn-primary" id="bookEquipBtn">Book Slot</button></form></div>
+        </div>
+    </div>
+</div>
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">
+            <p>&copy; 2026 Rapid Prototyping Lab Management System. All Rights Reserved.</p>
+        </footer>
+    </main>
+</div>
+<script src="assets/js/global.js"></script>
+<script src="assets/js/ongoingprojects.js"></script>
+</body>
+</html>
