@@ -4,41 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-(function (d, w) {
-    var THEME_KEY = 'portal-theme';
-    var URL_THEME_RE = /[?&]theme=(dark|light)(?:&|$)/;
-    function readTheme() {
-        var t = null;
-        try {
-            var match = (w.location.search || '').match(URL_THEME_RE);
-            if (match) t = match[1];
-        } catch (e) {}
-        if (t !== 'dark' && t !== 'light') {
-            try { t = w.localStorage.getItem(THEME_KEY); } catch (e) {}
-        }
-        if (t !== 'dark' && t !== 'light') t = 'light';
-        return t;
-    }
-    var theme = readTheme();
-    var root = d.documentElement;
-    var isDark = theme === 'dark';
-    if (isDark) {
-        root.setAttribute('data-theme', 'dark');
-        root.style.colorScheme = 'dark';
-        root.style.backgroundColor = '#0F172A';
-    } else {
-        root.removeAttribute('data-theme');
-        root.style.colorScheme = 'light';
-        root.style.backgroundColor = '#F4F7FC';
-    }
-    var style = d.createElement('style');
-    style.id = 'portal-theme-critical';
-    style.textContent =
-        ':root{--background:#F4F7FC;--card:#FFF;--text-dark:#1F2937;--text-light:#6B7280;--border:#E5E7EB;--primary:#4F46E5;--primary-light:#EEF2FF}' +
-        'html[data-theme="dark"]{--background:#0F172A;--card:#1E293B;--text-dark:#F1F5F9;--text-light:#94A3B8;--border:#334155;--primary-light:#312E81;color-scheme:dark}' +
-        'html,body{margin:0;min-height:100vh;background-color:var(--background);color:var(--text-dark);color-scheme:light}';
-    d.head.appendChild(style);
-})(document, window);
+(function(d,w){
+  // ── Theme ──
+  var t;
+  try{var m=(w.location.search||'').match(/[?&]theme=(dark|light)/);if(m)t=m[1]}catch(e){}
+  if(t!=='dark'&&t!=='light'){try{t=w.localStorage.getItem('portal-theme')}catch(e){}}
+  if(t==='dark'||t==='light'){try{w.localStorage.setItem('portal-theme',t)}catch(e){}}
+  else t='light';
+  // ── Palette (only matters in dark mode) ──
+  var PALETTES=['midnight','obsidian','forest','crimson','aurora'];
+  var pal;
+  try{var pm=(w.location.search||'').match(/[?&]palette=([a-z]+)/);if(pm&&PALETTES.indexOf(pm[1])>-1)pal=pm[1]}catch(e){}
+  if(!pal){try{var ls=w.localStorage.getItem('portal-palette');if(PALETTES.indexOf(ls)>-1)pal=ls}catch(e){}}
+  if(pal){try{w.localStorage.setItem('portal-palette',pal)}catch(e){}}
+  else pal='midnight';
+  // ── Apply ──
+  var r=d.documentElement;
+  if(t==='dark'){
+    r.setAttribute('data-theme','dark');r.style.colorScheme='dark';
+    if(pal&&pal!=='midnight')r.setAttribute('data-palette',pal);else r.removeAttribute('data-palette');
+    // Background per palette
+    var bgs={midnight:'#0F172A',obsidian:'#111111',forest:'#0A1A12',crimson:'#150A0A',aurora:'#0D0A1A'};
+    r.style.backgroundColor=bgs[pal]||'#0F172A';
+  }else{
+    r.removeAttribute('data-theme');r.removeAttribute('data-palette');
+    r.style.colorScheme='light';r.style.backgroundColor='#F4F7FC';
+  }
+  var s=d.createElement('style');s.id='portal-theme-critical';
+  s.textContent=':root{--background:#F4F7FC;--card:#FFF;--text-dark:#1F2937;--text-light:#6B7280;--border:#E5E7EB;--primary:#4F46E5;--primary-light:#EEF2FF}'+'html[data-theme="dark"]{--background:#0F172A;--card:#1E293B;--text-dark:#F1F5F9;--text-light:#94A3B8;--border:#334155;--primary-light:#312E81;color-scheme:dark}'+'html,body{margin:0;min-height:100vh;background-color:var(--background);color:var(--text-dark);color-scheme:light}';
+  d.head.appendChild(s);
+})(document,window);
     </script>
     <title>My Profile | Rapid Prototyping Lab</title>
     <script src="assets/js/portal-preferences.js"></script>
@@ -199,6 +194,7 @@
         </footer>
     </main>
 </div>
+<script src="assets/js/palette-picker.js"></script>
 <script src="assets/js/global.js"></script>
 <script src="assets/js/myprofile.js"></script>
 </body>

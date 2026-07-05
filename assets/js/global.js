@@ -44,17 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (prefs) prefs.clearSidebarCollapsedPref();
     }
 
-    function persistThemeForNavigation(link) {
-        if (!prefs) return;
-        var theme = prefs.getActiveTheme();
-        prefs.setTheme(theme);
-        if (link && prefs.withThemeInHref) {
-            var href = link.getAttribute('href');
-            if (href) {
-                link.setAttribute('href', prefs.withThemeInHref(href, theme));
-            }
-        }
-    }
 
     function syncSidebarShrinkToggle() {
         const sidebarShrinkToggle = document.getElementById('sidebarShrinkToggle');
@@ -83,6 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.has-submenu.flyout-open').forEach(function(item) {
             item.classList.remove('flyout-open');
         });
+        // Reset any content push applied when the flyout opened
+        const dashContent = document.querySelector('.dashboard-content');
+        if (dashContent) dashContent.style.marginTop = '';
     }
 
     function positionSubmenuFlyout(parent) {
@@ -97,19 +89,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const top = Math.min(rect.top, window.innerHeight - submenuHeight - 12);
         submenu.style.top = Math.max(12, top) + 'px';
         submenu.style.left = (rect.right + 8) + 'px';
+
+        // Push the page content down so it sits below the flyout panel,
+        // preventing the description text and info cards from being covered.
+        const flyoutBottom = parseFloat(submenu.style.top) + submenuHeight;
+        const dashContent = document.querySelector('.dashboard-content');
+        if (dashContent) {
+            const contentTop = dashContent.getBoundingClientRect().top;
+            const extra = Math.max(0, flyoutBottom - contentTop + 16);
+            dashContent.style.marginTop = extra > 0 ? extra + 'px' : '';
+        }
     }
+
 
     restoreSidebarCollapsed();
 
-    if (prefs && prefs.decoratePortalLinks) {
-        prefs.decoratePortalLinks(prefs.getActiveTheme());
-    }
-
-    window.addEventListener('portal-theme-changed', function(e) {
+    window.addEventListener('portal-theme-changed', function() {
         syncDarkModeToggle();
-        if (prefs && prefs.decoratePortalLinks) {
-            prefs.decoratePortalLinks(e.detail || prefs.getActiveTheme());
-        }
     });
 
     window.addEventListener('portal-sidebar-changed', function() {
@@ -178,46 +174,28 @@ document.addEventListener('DOMContentLoaded', function() {
         syncDarkModeToggle();
     }
 
-    // Persist theme before navigating to another page
+    // Inject ?theme= into internal links at click time.
+    // This is the critical transport for file:// protocol (Firefox isolates
+    // localStorage per directory, so URL params are the only reliable way
+    // to carry the theme to the next page).
     document.addEventListener('click', function(e) {
+        if (!prefs) return;
         const link = e.target.closest('a[href]');
-        if (!link || !prefs) return;
+        if (!link) return;
         const href = link.getAttribute('href');
-        if (!href || href === '#' || href.charAt(0) === '#') return;
-        if (/^javascript:/i.test(href)) return;
-        if (/^https?:\/\//i.test(href)) {
-            try {
-                const target = new URL(href, window.location.href);
-                if (target.origin !== window.location.origin) return;
-            } catch (err) {
-                return;
-            }
-        }
-        persistThemeForNavigation(link);
-        if (prefs.getSidebarCollapsed()) {
-            prefs.applySidebarCollapsedPref();
-        }
+        if (!href || !prefs.isInternalLink(href)) return;
+        const theme = prefs.getActiveTheme();
+        const themed = prefs.withThemeInHref(href, theme);
+        if (themed !== href) link.setAttribute('href', themed);
+        // Also flush to localStorage / URL bar
+        prefs.persistActiveTheme();
     }, true);
 
-    document.addEventListener('mousedown', function(e) {
-        if (e.button !== 0) return;
-        const link = e.target.closest('a[href]');
-        if (!link || !prefs) return;
-        const href = link.getAttribute('href');
-        if (!href || href === '#' || href.charAt(0) === '#') return;
-        if (/^javascript:/i.test(href)) return;
-        persistThemeForNavigation(link);
-        if (prefs.getSidebarCollapsed()) {
-            prefs.applySidebarCollapsedPref();
-        }
-    }, true);
-
+    // Backup: flush theme on any navigation (covers middle-click, keyboard nav, etc.)
     window.addEventListener('beforeunload', function() {
-        persistThemeForNavigation();
-        if (prefs && prefs.getSidebarCollapsed()) {
-            prefs.applySidebarCollapsedPref();
-        }
+        if (prefs) prefs.persistActiveTheme();
     });
+
 
     // Mobile drawer / desktop collapse via menu button
     const menuButton = document.querySelector('.menu-btn');
@@ -283,8 +261,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.querySelectorAll('.sidebar-menu a').forEach(function(link) {
-        const href = link.getAttribute('href');
-        if (href === pageName) {
+        // Strip any query params from href before comparing with current page filename
+        const rawHref = link.getAttribute('href') || '';
+        const hrefPage = rawHref.split('?')[0].split('#')[0];
+        if (hrefPage === pageName) {
             const submenuLi = link.closest('.submenu li');
             if (submenuLi) {
                 submenuLi.classList.add('active');
