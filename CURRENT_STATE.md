@@ -316,3 +316,12 @@ Use a local HTTP server (not `file://`) for reliable `localStorage` behavior acr
 ```
 
 The portal is suitable for **demos, usability review, and frontend development**. It is **not production-ready** without authentication, API integration, and data persistence.
+
+---
+
+## 14. Latest Updates (July 2026)
+
+- **Dark Mode Palettes:** Added 5 distinct color palettes for dark mode (Midnight, Obsidian, Forest, Crimson, Aurora) with a UI picker panel (`palette-picker.js`).
+- **Robust Persistence:** Implemented state transport via URL parameters (`?theme=` and `?palette=`) combined with click-intercepts. This guarantees state persistence across page navigations even on `file:///` protocols where `localStorage` origin is isolated.
+- **Flyout Submenu UX:** When the sidebar is fully collapsed, opening a flyout submenu now smoothly pushes the main `.dashboard-content` down via animated `margin-top` to prevent overlapping with content cards.
+- **Logout Placeholder:** Identified the logout button location (sidebar footer) across all HTML files for future auth integration.

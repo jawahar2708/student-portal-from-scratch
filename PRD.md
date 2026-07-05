@@ -182,6 +182,7 @@ Today, much of this is handled offline or through fragmented channels. The porta
 | UI-05 | Responsive layout (desktop, tablet, mobile) | P0 |
 | UI-06 | Toast notifications for form actions | P1 |
 | UI-07 | Active nav item highlighting per page | P0 |
+| UI-08 | Dark mode color palette selection (e.g., Midnight, Obsidian, Forest, Crimson, Aurora) | P1 |
 
 ---
 

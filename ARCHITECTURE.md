@@ -89,6 +89,7 @@ student portal from scratch/
     │   └── settings.css
     ├── js/
     │   ├── portal-preferences.js   # Early-load theme & sidebar prefs
+    │   ├── palette-picker.js       # Manages dark mode color palettes and UI
     │   ├── global.js               # Sidebar, nav, toasts, toggles
     │   ├── dashboard.js
     │   ├── myprofile.js
@@ -225,6 +226,7 @@ window.PortalPreferences = {
 | Key | Values |
 |-----|--------|
 | `portal-theme` | `light` \| `dark` |
+| `portal-palette` | `midnight` \| `obsidian` \| `forest` \| `crimson` \| `aurora` |
 | `portal-sidebar-collapsed` | `true` \| `false` |
 
 Cross-tab sync via `storage` event; cross-page sync via head script + `pageshow` listener.
@@ -241,6 +243,7 @@ Cross-tab sync via `storage` event; cross-page sync via head script + `pageshow`
 | Notifications | Toggle `.notification-dropdown.show` |
 | Toasts | `showToast(message, 'success'\|'warning'\|'error')` |
 | Form validation | `validateForm(form)` for required/email fields |
+| State transport | Intercepts link clicks to append `?theme=` and `?palette=` URL parameters, guaranteeing cross-page persistence on `file:///` protocols |
 
 ### 6.4 Ongoing Projects Data Model (Client-Side)
 
@@ -321,6 +324,12 @@ flowchart LR
 ```
 
 Light and dark palettes preserve status colors (`--success`, `--warning`, `--danger`) for usability. Dark mode adds targeted overrides for page-specific white backgrounds (tabs, cards, forms, upload area).
+
+**Color Palettes:**
+Dark mode includes 5 selectable color palettes (Midnight, Obsidian, Forest, Crimson, Aurora) managed by `palette-picker.js`. 
+
+**State Persistence:**
+Theme and palette states are saved to `localStorage`. To handle origin-isolation issues when opening files directly via the `file:///` protocol, `global.js` also intercepts navigation links and passes the state via URL query parameters (e.g., `?theme=dark&palette=obsidian`).
 
 ---
 
